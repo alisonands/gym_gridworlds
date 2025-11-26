@@ -493,7 +493,7 @@ class Gridworld(gym.Env):
         if reward != 0.0 and self.nonzero_reward_noise_std > 0.0:
             reward += self.np_random.normal() * self.nonzero_reward_noise_std
 
-        if self.distance_reward:
+        if self.distance_reward: #manahttan distance
             closest_goal = np.abs(
                 np.argwhere(self.grid == GOOD) - self.agent_pos
             ).sum(1).min()
