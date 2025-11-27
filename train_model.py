@@ -32,7 +32,7 @@ model = PPO(
     # target_update_interval=250,
     # exploration_fraction=0.1,
     # exploration_final_eps=0.05,
-    verbose=1,
+    verbose=1
 )
 
 # train model, progress bar w tdqm

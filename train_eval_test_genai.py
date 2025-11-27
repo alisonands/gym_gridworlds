@@ -5,7 +5,7 @@ from stable_baselines3.common.evaluation import evaluate_policy
 
 # 1. Create the Gridworld environment
 # You can try other grids like "3x5_two_room_quicksand" or "6x6_danger_maze"
-env = gym.make("Gym-Gridworlds/Full-4x5-v0", grid="4x4_quicksand")#, render_mode="human")
+env = gym.make("Gym-Gridworlds/CleanDirt-10x10-v0")# render_mode="human")
 
 # 2. Instantiate the DQN model
 # "MlpPolicy" means the agent will use a Multi-Layer Perceptron (a standard neural network)
@@ -14,12 +14,12 @@ env = gym.make("Gym-Gridworlds/Full-4x5-v0", grid="4x4_quicksand")#, render_mode
 model = DQN(
     "MlpPolicy",
     env,
-    learning_rate=5e-4,
+    learning_rate=1e-4,
     buffer_size=50000,
     learning_starts=1000,
     batch_size=32,
     tau=1.0,
-    gamma=0.85,
+    gamma=0.99,
     train_freq=(1, "step"),
     gradient_steps=1,
     target_update_interval=250,
@@ -32,19 +32,19 @@ model = DQN(
 # The agent will learn for 50,000 timesteps.
 # For more complex environments, you will need more steps.
 print("--- Starting Training ---")
-model.learn(total_timesteps=50000, progress_bar=False)
+model.learn(total_timesteps=50000, progress_bar=True)
 print("--- Training Finished ---")
 
 # 4. Save the trained model
-model.save("dqn_gridworld_quicksand")
+model.save("DQN_clean_dirt")
 
 # --- Evaluation ---
 # To see how well it learned, let's load the model and evaluate it.
 # We need to wrap the environment to record video for rendering during evaluation.
-eval_env = gym.make("Gym-Gridworlds/Full-4x5-v0", grid="4x4_quicksand", render_mode="human")
+eval_env = gym.make("Gym-Gridworlds/CleanDirt-10x10-v0", render_mode="human")
 
 # Load the trained agent
-trained_model = DQN.load("dqn_gridworld_quicksand", env=eval_env)
+trained_model = DQN.load("DQN_clean_dirt", env=eval_env)
 
 # Evaluate the agent
 mean_reward, std_reward = evaluate_policy(trained_model, eval_env, n_eval_episodes=10)

@@ -31,13 +31,21 @@ class CleanDirt(Gridworld):
         self.dirt_prob = dirt_prob
 
     def step(self, action):
+        # Check if the agent is on a dirt tile before the parent step
+        on_dirt = self.grid[self.agent_pos] == GOOD
+
+        # Call the parent step method
         obs, rwd, terminated, truncated, info = Gridworld.step(self, action)
 
-        if self.grid[self.agent_pos] == GOOD and action == STAY:  # dirt was collected
+        # If the agent was on dirt and performed a cleaning action
+        if on_dirt and (action == STAY or self.no_stay):
+            # Explicitly set the reward for cleaning.
+            # This overrides the +1 reward from the parent's terminal state logic.
+            rwd = REWARDS[GOOD]
             self.grid[self.agent_pos] = EMPTY
-            terminated = False
+            terminated = False  # Ensure the episode continues
 
-        rwd -= REWARDS[BAD_SMALL] * (self.grid == GOOD).sum()  # add penalty for every dirt
+        rwd += REWARDS[BAD_SMALL] * (self.grid == GOOD).sum()  # add penalty for every remaining dirt
 
         if self.np_random.random() < self.dirt_prob:  # spawn new dirt
             allowed_tiles = np.argwhere(self.grid == EMPTY)
