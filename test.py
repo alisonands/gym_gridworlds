@@ -28,7 +28,7 @@ def one_hot(obs, n):
     v[obs] = 1.0
     return v
 
-for episode in range(5):
+for episode in range(10):
     obs, info = env.reset()
     obs = one_hot(obs, env.observation_space.n)
     done = False
