@@ -47,7 +47,7 @@ env = gym.make("Gym-Gridworlds/TravelField-10x10-v0",
                start_pos = None,
                distance_reward=True, 
                render_mode = "human")
-
+  
 
 for episode in range(10):
     obs, info = env.reset()
