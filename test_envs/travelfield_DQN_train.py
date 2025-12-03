@@ -1,5 +1,5 @@
 #imports
-from stable_baselines3 import PPO
+from stable_baselines3 import DQN
 from stable_baselines3.common.monitor import Monitor
 import numpy as np
 import gymnasium as gym
@@ -7,9 +7,9 @@ import gym_gridworlds
 import os
 
 # vars
-env_name = "FourRooms-Original-13x13-v0"
-save_model_name = "four_rooms"
-n_model = "PPO"
+env_name = "TravelField-10x10-v0"
+save_model_name = "travelfield"
+n_model = "DQN"
 no_stay = True
 distance_reward = True
 start_pos = None
@@ -42,17 +42,17 @@ os.makedirs(MODEL_DIR, exist_ok=True)
 
 # wrap envs
 env = OneHotWrapper(env)
-env = Monitor(env, f"{LOG_DIR}") #logs stuff to log dir
+env = Monitor(env, f"{LOG_DIR}/{save_model_name}") #logs stuff to log dir
 
 # train
-model = PPO(
+model = DQN(
     "MlpPolicy",
     env,
     learning_rate=0.01,
     n_steps = 64, 
     batch_size=64,
     gamma=0.99,
-    ent_coef=0.1,
+    exploration_fraction=0.01,
     verbose=1,
 )
 

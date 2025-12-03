@@ -7,12 +7,22 @@ import numpy as np
 import gymnasium as gym
 import gym_gridworlds
 
+
+# vars
+env_name = "FourRooms-Original-13x13-v0"
+save_model_name = "four_rooms"
+n_model = "DQN"
+eval_model_name = f"{save_model_name}_eval_{n_model}"
+no_stay = True
+distance_reward = True
+start_pos = None
+random_goals = False
 LOG_DIR = "log_dir/"
 
 # Plotting the learning curve from the Monitor logs
 
 # Helper function from Stable Baselines 3 to read monitor files
-def plot_results(log_folder, title='Learning Curve'):
+def plot_results(log_folder, title=f'Learning Curve {save_model_name} {n_model}'):
     x, y = ts2xy(load_results(log_folder), 'timesteps')
     # Smooth the curve using a moving average
     y = np.convolve(y, np.ones(100)/100, mode='valid')
@@ -24,19 +34,11 @@ def plot_results(log_folder, title='Learning Curve'):
     plt.ylabel('Rewards')
     plt.title(title)
     plt.grid(True)
+    plt.savefig(f"plots/{save_model_name}_{n_model}.png")
     plt.show()
 
 plot_results(LOG_DIR)
 
-# vars
-env_name = "FourRooms-Original-13x13-v0"
-save_model_name = "four_rooms"
-n_model = "DQN"
-eval_model_name = f"{save_model_name}_eval_{n_model}"
-no_stay = True
-distance_reward = True
-start_pos = None
-random_goals = False
 
 
 # wrapper class

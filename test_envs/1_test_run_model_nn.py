@@ -1,6 +1,6 @@
 import gymnasium as gym
 import gym_gridworlds
-from stable_baselines3 import DQN
+from stable_baselines3 import DQN, PPO
 from stable_baselines3.common.monitor import Monitor
 import numpy as np
 import time
@@ -8,7 +8,7 @@ import time
 
 # vars
 env_name = "FourRooms-Original-13x13-v0"
-saved_model_name = "four_rooms"
+save_model_name = "four_rooms_DQN"
 distance_reward = True
 no_stay = True
 start_pos = None
@@ -35,7 +35,7 @@ env = gym.make(f"Gym-Gridworlds/{env_name}",
 env = OneHotWrapper(env)
 
 # load model
-model = DQN.load(f"trained_models/{saved_model_name}")
+model = DQN.load(f"trained_models/{save_model_name}")
 
 for episode in range(10):
     obs, _ = env.reset()
@@ -44,7 +44,5 @@ for episode in range(10):
         action, _states = model.predict(obs)
         obs, reward, terminated, truncated, info = env.step(action)
         done = terminated or truncated
-        time.sleep(0.1)
+        # time.sleep(0.1)
 env.close()
-
-    

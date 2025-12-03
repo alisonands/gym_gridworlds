@@ -7,12 +7,22 @@ import numpy as np
 import gymnasium as gym
 import gym_gridworlds
 
+
+# vars
+env_name = "FourRooms-Original-13x13-v0"
+save_model_name = "four_rooms"
+n_model = "PPO"
+eval_model_name = f"{save_model_name}_eval_{n_model}"
+no_stay = True
+distance_reward = True
+start_pos = None
+random_goals = False
 LOG_DIR = "log_dir/"
 
 # Plotting the learning curve from the Monitor logs
 
 # Helper function from Stable Baselines 3 to read monitor files
-def plot_results(log_folder, title='Learning Curve'):
+def plot_results(log_folder, title=f'Learning Curve {save_model_name} {n_model}'):
     x, y = ts2xy(load_results(log_folder), 'timesteps')
     # Smooth the curve using a moving average
     y = np.convolve(y, np.ones(100)/100, mode='valid')
@@ -24,19 +34,10 @@ def plot_results(log_folder, title='Learning Curve'):
     plt.ylabel('Rewards')
     plt.title(title)
     plt.grid(True)
+    plt.savefig(f"plots/{save_model_name}_{n_model}.png")
     plt.show()
 
-plot_results(LOG_DIR)
-
-# vars
-env_name = "FourRooms-Original-13x13-v0"
-save_model_name = "four_rooms"
-eval_model_name = f"{save_model_name}_eval"
-no_stay = True
-distance_reward = True
-start_pos = None
-random_goals = False
-
+plot_results(f"{LOG_DIR}")
 
 # wrapper class
 class OneHotWrapper(gym.ObservationWrapper):
@@ -62,6 +63,6 @@ eval_env = gym.make(f"Gym-Gridworlds/{env_name}",
 eval_env = OneHotWrapper(eval_env)
 eval_env = Monitor(eval_env, f"{LOG_DIR}/{eval_model_name}")
 
-trained_model = PPO.load(f"trained_models/{save_model_name}")
+trained_model = PPO.load(f"trained_models/{save_model_name}_{n_model}")
 mean_reward, std_reward = evaluate_policy(trained_model, eval_env, n_eval_episodes=10)
 print(f"mean_reward={mean_reward:.2f} +/- {std_reward}")

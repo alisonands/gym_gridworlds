@@ -4,7 +4,7 @@ from stable_baselines3 import DQN, PPO
 import time
 
 env = gym.make("Gym-Gridworlds/Penalty-3x3-v0", start_pos = (0, 0), render_mode="human")
-model = PPO.load("trained_models/PPO_3x3")
+model = DQN.load("trained_models/DQN_3x3")
 
 for episode in range(100):
     obs, info = env.reset()
