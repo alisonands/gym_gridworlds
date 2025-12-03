@@ -1,5 +1,5 @@
 from stable_baselines3.common.evaluation import evaluate_policy
-from stable_baselines3 import DQN
+from stable_baselines3 import PPO
 from stable_baselines3.common.monitor import Monitor
 from stable_baselines3.common.results_plotter import load_results, ts2xy
 import matplotlib.pyplot as plt
@@ -31,8 +31,7 @@ plot_results(LOG_DIR)
 # vars
 env_name = "FourRooms-Original-13x13-v0"
 save_model_name = "four_rooms"
-n_model = "DQN"
-eval_model_name = f"{save_model_name}_eval_{n_model}"
+eval_model_name = f"{save_model_name}_eval"
 no_stay = True
 distance_reward = True
 start_pos = None
@@ -63,6 +62,6 @@ eval_env = gym.make(f"Gym-Gridworlds/{env_name}",
 eval_env = OneHotWrapper(eval_env)
 eval_env = Monitor(eval_env, f"{LOG_DIR}/{eval_model_name}")
 
-trained_model = DQN.load(f"trained_models/{save_model_name}_{n_model}")
+trained_model = PPO.load(f"trained_models/{save_model_name}")
 mean_reward, std_reward = evaluate_policy(trained_model, eval_env, n_eval_episodes=10)
 print(f"mean_reward={mean_reward:.2f} +/- {std_reward}")

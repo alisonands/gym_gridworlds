@@ -1,5 +1,5 @@
 #imports
-from stable_baselines3 import DQN
+from stable_baselines3 import PPO
 from stable_baselines3.common.monitor import Monitor
 import numpy as np
 import gymnasium as gym
@@ -9,7 +9,6 @@ import os
 # vars
 env_name = "FourRooms-Original-13x13-v0"
 save_model_name = "four_rooms"
-n_model = "DQN"
 no_stay = True
 distance_reward = True
 start_pos = None
@@ -45,18 +44,18 @@ env = OneHotWrapper(env)
 env = Monitor(env, f"{LOG_DIR}/{save_model_name}") #logs stuff to log dir
 
 # train
-model = DQN(
+model = PPO(
     "MlpPolicy",
     env,
     learning_rate=0.01,
     n_steps = 64, 
     batch_size=64,
     gamma=0.99,
-    exploration_fraction=0.01,
+    # exploration_fraction=0.01,
     verbose=1,
 )
 
 model.learn(total_timesteps=50000, progress_bar = True)
 
 # save model
-model.save(f"trained_models/{save_model_name}_{n_model}")
+model.save(f"trained_models/{save_model_name}")
