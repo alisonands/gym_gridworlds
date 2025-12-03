@@ -62,7 +62,10 @@ for episode in range(10):
     print(f"Episode {episode + 1}: Total Reward = {episode_reward}")
 
 env.close() 
-plt.plot(rewards_list, '.')
-plt.xlabel("Episode")
-plt.ylabel("Total Reward")
+plt.plot(rewards_list)
+plt.xlabel("Number of Timesteps")
+plt.ylabel("Rewards")
+plt.title("Learning Curve TravelField Q_learning")
+plt.grid(True)
+plt.savefig("plots/TravelField_Q_learning.png")
 plt.show()
