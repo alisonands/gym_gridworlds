@@ -1,4 +1,4 @@
-optuna
+optuna # for hyperparameter optimization
 gymnasium
 stable-baselines3
 numpy
