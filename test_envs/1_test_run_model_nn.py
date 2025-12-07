@@ -7,8 +7,8 @@ import time
 
 
 # vars
-env_name = "TravelField-10x10-v0"
-save_model_name = "travelfield_DQN"
+env_name = "FourRooms-Original-13x13-v0"
+save_model_name = "four_rooms_DQN"
 distance_reward = True
 no_stay = True
 start_pos = None

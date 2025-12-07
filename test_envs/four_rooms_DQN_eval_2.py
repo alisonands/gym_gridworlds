@@ -38,7 +38,6 @@ policy_grid = np.zeros((grid_size, grid_size), dtype=int)
 value_grid = np.zeros((grid_size, grid_size))
 
 # Action mapping for arrows
-# {0: LEFT, 1: DOWN, 2: RIGHT, 3: UP}
 action_arrows = {0: '←', 1: '↓', 2: '→', 3: '↑'}
 
 def one_hot(obs, size):

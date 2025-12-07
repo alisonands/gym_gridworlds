@@ -42,17 +42,17 @@ os.makedirs(MODEL_DIR, exist_ok=True)
 
 # wrap envs
 env = OneHotWrapper(env)
-env = Monitor(env, f"{LOG_DIR}/{save_model_name}") #logs stuff to log dir
+env = Monitor(env, f"{LOG_DIR}") #logs stuff to log dir
 
 # train
 model = DQN(
     "MlpPolicy",
     env,
-    learning_rate=0.01,
-    n_steps = 64, 
+    learning_rate=0.0006,
+    n_steps = 256, 
     batch_size=64,
-    gamma=0.99,
-    exploration_fraction=0.01,
+    gamma=0.916,
+    exploration_fraction=0.08,
     verbose=1,
 )
 

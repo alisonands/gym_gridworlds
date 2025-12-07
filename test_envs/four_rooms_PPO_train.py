@@ -48,9 +48,9 @@ env = Monitor(env, f"{LOG_DIR}") #logs stuff to log dir
 model = PPO(
     "MlpPolicy",
     env,
-    learning_rate=0.01,
+    learning_rate=0.0001,
     n_steps = 64, 
-    batch_size=64,
+    # batch_size=64,
     gamma=0.99,
     ent_coef=0.1,
     verbose=1,
