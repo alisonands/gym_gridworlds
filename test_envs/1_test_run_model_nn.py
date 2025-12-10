@@ -18,10 +18,11 @@ from gym_gridworlds.observation_wrappers import AddGoalWrapper
 
 env_name = "TravelField-10x10-v0"
 save_model_name = "travelfield_DQN"
-distance_reward = True
 no_stay = True
 start_pos = None
 random_goals = False
+distance_reward = True
+
 
 # ---------------------------------
 # CREATE ENV (gymnasium)

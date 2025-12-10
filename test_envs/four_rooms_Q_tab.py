@@ -16,12 +16,9 @@ env = gym.make("Gym-Gridworlds/FourRooms-Original-13x13-v0",
 # ---- define observation and action spaces -----
 q = np.zeros((env.observation_space.n, env.action_space.n))
 
-# ---------------------------------
-# VARIABLES (change as required)
-# ---------------------------------
-alpha = 0.01 # learning rate
-gamma = 0.99 # discount factor 
-eps = 0.01 # exploration
+alpha = 0.03 # learning rate
+gamma = 0.93 # discount factor 
+eps = 0.08 # exploration
 rewards_list = []
 
 for episode in range(10000):
@@ -54,9 +51,7 @@ env = gym.make("Gym-Gridworlds/FourRooms-Original-13x13-v0",
                distance_reward=True, 
                render_mode = "human")
 
-# ---------------------------------
-# MODEL EVALUATION 
-# ---------------------------------
+
 for episode in range(10):
     obs, info = env.reset()
     done = False

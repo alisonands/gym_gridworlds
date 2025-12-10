@@ -1,35 +1,31 @@
+# ---------------------------------
+# IMPORTS
+# ---------------------------------
+import gymnasium as gym
 from stable_baselines3.common.evaluation import evaluate_policy
 from stable_baselines3 import PPO
 from stable_baselines3.common.monitor import Monitor
 from stable_baselines3.common.results_plotter import load_results, ts2xy
 import matplotlib.pyplot as plt
 import numpy as np
-import gymnasium as gym
+
+# custom environment
 import gym_gridworlds
+from gym_gridworlds.observation_wrappers import AddGoalWrapper
 
-
-# vars
+# ---------------------------------
+# VARIABLES (change as required)
+# ---------------------------------
 env_name = "FourRooms-Original-13x13-v0"
 save_model_name = "four_rooms"
 n_model = "PPO"
 eval_model_name = f"{save_model_name}_eval_{n_model}"
 no_stay = True
-distance_reward = True
 start_pos = None
 random_goals = False
+distance_reward = True
+
 LOG_DIR = "log_dir/"
-
-# wrapper class
-class OneHotWrapper(gym.ObservationWrapper):
-    def __init__(self, env):
-        super().__init__(env)
-        n = env.observation_space.n
-        self.observation_space = gym.spaces.Box(0, 1, (n,), dtype=np.float32)
-
-    def observation(self, obs):
-        v = np.zeros(self.observation_space.shape[0], dtype=np.float32)
-        v[obs] = 1.0
-        return v
 
 # Visualize the learned policy and value function
 trained_model = PPO.load(f"trained_models/{save_model_name}_{n_model}")
@@ -40,19 +36,19 @@ value_grid = np.zeros((grid_size, grid_size))
 # Action mapping for arrows
 action_arrows = {0: '←', 1: '↓', 2: '→', 3: '↑'}
 
-def one_hot(obs, size):
-    v = np.zeros(size, dtype=np.float32)
-    v[obs] = 1.0
-    return v
+goal_pos = 11 * grid_size + 11 # Goal is at (11, 11) for FourRooms-Original-13x13-v0
 
 for i in range(grid_size):
     for j in range(grid_size):
         obs = i * grid_size + j
-        one_hot_obs = one_hot(obs, grid_size*grid_size)
-        action, _ = trained_model.predict(one_hot_obs, deterministic=True)
+        
+        # format given by ActionGoalWrapper; two discrete positions
+        wrapped_obs = np.array([obs, goal_pos])
+        action, _ = trained_model.predict(wrapped_obs, deterministic=True)
         policy_grid[i, j] = action
         
-        obs_tensor, _ = trained_model.policy.obs_to_tensor(one_hot_obs)
+        obs_tensor, _ = trained_model.policy.obs_to_tensor(np.array([wrapped_obs]))
+        # For PPO, use the value net (critic) to predict state value
         value = trained_model.policy.predict_values(obs_tensor)
         value_grid[i, j] = value.item()
 
@@ -75,4 +71,5 @@ for i in range(grid_size):
         plt.text(j, i, action_arrows.get(policy_grid[i, j], ' '), ha='center', va='center', color='black', fontsize=12)
 
 plt.tight_layout()
+plt.savefig(f"plots/{save_model_name}_{n_model}_value_grid.png")
 plt.show()

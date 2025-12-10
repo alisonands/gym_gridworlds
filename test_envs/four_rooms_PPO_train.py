@@ -1,57 +1,56 @@
-#imports
+# ---------------------------------
+# IMPORTS
+# ---------------------------------
+import gymnasium as gym
 from stable_baselines3 import PPO
 from stable_baselines3.common.monitor import Monitor
 import numpy as np
-import gymnasium as gym
-import gym_gridworlds
 import os
 
-# vars
+# custom environment
+import gym_gridworlds
+from gym_gridworlds.observation_wrappers import AddGoalWrapper
+
+
+# ---------------------------------
+# VARIABLES (change as required)
+# ---------------------------------
 env_name = "FourRooms-Original-13x13-v0"
 save_model_name = "four_rooms"
 n_model = "PPO"
 no_stay = True
-distance_reward = True
 start_pos = None
 random_goals = False
+distance_reward = True
 
-# wrapper class
-class OneHotWrapper(gym.ObservationWrapper):
-    def __init__(self, env):
-        super().__init__(env)
-        n = env.observation_space.n
-        self.observation_space = gym.spaces.Box(0, 1, (n,), dtype=np.float32)
-
-    def observation(self, obs):
-        v = np.zeros(self.observation_space.shape[0], dtype=np.float32)
-        v[obs] = 1.0
-        return v
-
-# make env
+# ---------------------------------
+# CREATE ENV (gymnasium)
+# ---------------------------------
 env = gym.make(f"Gym-Gridworlds/{env_name}",
                no_stay = no_stay,
                distance_reward = distance_reward,
                start_pos = start_pos,
                random_goals = random_goals)
 
-# make dirs
+# create dirs for reward curves and training models
 LOG_DIR = "log_dir/"
 MODEL_DIR = "trained_models/"
 os.makedirs(LOG_DIR, exist_ok=True)
 os.makedirs(MODEL_DIR, exist_ok=True)
 
 # wrap envs
-env = OneHotWrapper(env)
+env = AddGoalWrapper(env)
 env = Monitor(env, f"{LOG_DIR}") #logs stuff to log dir
 
-# train
+# -------------------------------------------
+# TRAIN (parameters determined using optuna)
+# -------------------------------------------
 model = PPO(
     "MlpPolicy",
     env,
-    learning_rate=0.0001,
-    n_steps = 64, 
+    learning_rate=0.0004,
     # batch_size=64,
-    gamma=0.99,
+    gamma=0.8,
     ent_coef=0.1,
     verbose=1,
 )

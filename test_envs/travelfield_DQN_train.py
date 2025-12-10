@@ -38,8 +38,6 @@ model = DQN(
     "MlpPolicy",
     env,
     learning_rate=0.0009,
-    # n_steps = 256, 
-    # batch_size=64,
     gamma=0.916,
     exploration_fraction=0.07,
     verbose=1,
