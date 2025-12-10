@@ -4,15 +4,21 @@ import gymnasium as gym
 import time
 import matplotlib.pyplot as plt
 
-
+# ---------------------------------
+# CREATE ENV (gymnasium)
+# ---------------------------------
 env = gym.make("Gym-Gridworlds/FourRooms-Original-13x13-v0", 
                no_stay=True, 
                random_goals=False, 
                start_pos = None,
                distance_reward=True)#, render_mode = "human")
 
+# ---- define observation and action spaces -----
 q = np.zeros((env.observation_space.n, env.action_space.n))
 
+# ---------------------------------
+# VARIABLES (change as required)
+# ---------------------------------
 alpha = 0.01 # learning rate
 gamma = 0.99 # discount factor 
 eps = 0.01 # exploration
@@ -32,6 +38,7 @@ for episode in range(10000):
         next_obs, reward, terminated, truncated, info = env.step(action)
         done = terminated or truncated
 
+        # ------ Q-learning update function -------
         q[obs, action] += alpha * (reward + gamma * np.max(q[next_obs]) - q[obs, action])
         obs = next_obs
         episode_reward += reward
@@ -47,7 +54,9 @@ env = gym.make("Gym-Gridworlds/FourRooms-Original-13x13-v0",
                distance_reward=True, 
                render_mode = "human")
 
-
+# ---------------------------------
+# MODEL EVALUATION 
+# ---------------------------------
 for episode in range(10):
     obs, info = env.reset()
     done = False

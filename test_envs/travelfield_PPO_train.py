@@ -1,6 +1,7 @@
 #imports
 from stable_baselines3 import PPO
 from stable_baselines3.common.monitor import Monitor
+from gym_gridworlds.observation_wrappers import MatrixWithGoalWrapper
 import numpy as np
 import gymnasium as gym
 import gym_gridworlds
@@ -41,7 +42,7 @@ os.makedirs(LOG_DIR, exist_ok=True)
 os.makedirs(MODEL_DIR, exist_ok=True)
 
 # wrap envs
-env = OneHotWrapper(env)
+env = MatrixWithGoalWrapper(env)
 env = Monitor(env, f"{LOG_DIR}") #logs stuff to log dir
 
 # train
@@ -56,7 +57,7 @@ model = PPO(
     verbose=1,
 )
 
-model.learn(total_timesteps=50000, progress_bar = True)
+model.learn(total_timesteps=100000, progress_bar = True)
 
 # save model
 model.save(f"trained_models/{save_model_name}_{n_model}")

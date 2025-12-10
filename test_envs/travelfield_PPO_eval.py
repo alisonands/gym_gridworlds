@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import gymnasium as gym
 import gym_gridworlds
+from gym_gridworlds.observation_wrappers import MatrixWithGoalWrapper
 
 
 # vars
@@ -51,7 +52,7 @@ class OneHotWrapper(gym.ObservationWrapper):
         v[obs] = 1.0
         return v
 
-env_name = "FourRooms-Original-13x13-v0"
+env_name = "TravelField-10x10-v0"
 
 eval_env = gym.make(f"Gym-Gridworlds/{env_name}", 
                     no_stay=no_stay, 
@@ -60,7 +61,7 @@ eval_env = gym.make(f"Gym-Gridworlds/{env_name}",
                     random_goals = random_goals,
                     )
 # wrap envs
-eval_env = OneHotWrapper(eval_env)
+eval_env = MatrixWithGoalWrapper(eval_env)
 eval_env = Monitor(eval_env, f"{LOG_DIR}/{eval_model_name}")
 
 trained_model = PPO.load(f"trained_models/{save_model_name}_{n_model}")

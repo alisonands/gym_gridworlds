@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import gymnasium as gym
 import gym_gridworlds
+from gym_gridworlds.observation_wrappers import MatrixWithGoalWrapper
+
 
 
 # vars
@@ -60,7 +62,7 @@ eval_env = gym.make(f"Gym-Gridworlds/{env_name}",
                     random_goals = random_goals,
                     )
 # wrap envs
-eval_env = OneHotWrapper(eval_env)
+eval_env = MatrixWithGoalWrapper(eval_env)
 eval_env = Monitor(eval_env, f"{LOG_DIR}/{eval_model_name}")
 
 trained_model = DQN.load(f"trained_models/{save_model_name}_{n_model}")

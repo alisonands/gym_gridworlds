@@ -4,6 +4,7 @@ from stable_baselines3.common.monitor import Monitor
 import numpy as np
 import gymnasium as gym
 import gym_gridworlds
+from gym_gridworlds.observation_wrappers import MatrixWithGoalWrapper
 import os
 
 # vars
@@ -41,7 +42,7 @@ os.makedirs(LOG_DIR, exist_ok=True)
 os.makedirs(MODEL_DIR, exist_ok=True)
 
 # wrap envs
-env = OneHotWrapper(env)
+env = MatrixWithGoalWrapper(env)
 env = Monitor(env, f"{LOG_DIR}") #logs stuff to log dir
 
 # train

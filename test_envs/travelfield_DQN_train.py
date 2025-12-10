@@ -4,6 +4,7 @@ from stable_baselines3.common.monitor import Monitor
 import numpy as np
 import gymnasium as gym
 import gym_gridworlds
+from gym_gridworlds.observation_wrappers import AddGoalWrapper, MatrixWithGoalWrapper
 import os
 
 # vars
@@ -14,18 +15,6 @@ no_stay = True
 distance_reward = True
 start_pos = None
 random_goals = False
-
-# wrapper class
-class OneHotWrapper(gym.ObservationWrapper):
-    def __init__(self, env):
-        super().__init__(env)
-        n = env.observation_space.n
-        self.observation_space = gym.spaces.Box(0, 1, (n,), dtype=np.float32)
-
-    def observation(self, obs):
-        v = np.zeros(self.observation_space.shape[0], dtype=np.float32)
-        v[obs] = 1.0
-        return v
 
 # make env
 env = gym.make(f"Gym-Gridworlds/{env_name}",
@@ -41,22 +30,22 @@ os.makedirs(LOG_DIR, exist_ok=True)
 os.makedirs(MODEL_DIR, exist_ok=True)
 
 # wrap envs
-env = OneHotWrapper(env)
-env = Monitor(env, f"{LOG_DIR}/{save_model_name}") #logs stuff to log dir
+env = MatrixWithGoalWrapper(env)
+env = Monitor(env, f"{LOG_DIR}") #logs stuff to log dir
 
 # train
 model = DQN(
     "MlpPolicy",
     env,
-    learning_rate=0.0001,
-    # n_steps = 200, 
+    learning_rate=0.0009,
+    # n_steps = 256, 
     # batch_size=64,
-    gamma=0.99,
-    exploration_fraction=0.01,
+    gamma=0.916,
+    exploration_fraction=0.07,
     verbose=1,
 )
 
-model.learn(total_timesteps=100000, progress_bar = True)
+model.learn(total_timesteps=800000, progress_bar = True)
 
 # save model
 model.save(f"trained_models/{save_model_name}_{n_model}")
