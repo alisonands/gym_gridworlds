@@ -1,27 +1,37 @@
-from stable_baselines3.common.evaluation import evaluate_policy
+# ---------------------------------
+# IMPORTS
+# ---------------------------------
+import gymnasium as gym
 from stable_baselines3 import PPO
 from stable_baselines3.common.monitor import Monitor
 from stable_baselines3.common.results_plotter import load_results, ts2xy
+from stable_baselines3.common.evaluation import evaluate_policy
 import matplotlib.pyplot as plt
 import numpy as np
-import gymnasium as gym
+import os
+
+# custom environment
 import gym_gridworlds
-from gym_gridworlds.observation_wrappers import MatrixWithGoalWrapper
+from gym_gridworlds.observation_wrappers import AddGoalWrapper
 
-
-# vars
+# ---------------------------------
+# VARIABLES (change as required)
+# ---------------------------------
 env_name = "TravelField-10x10-v0"
 save_model_name = "travelfield"
 n_model = "PPO"
 eval_model_name = f"{save_model_name}_eval_{n_model}"
 no_stay = True
-distance_reward = True
 start_pos = None
 random_goals = False
+distance_reward = True
+
 LOG_DIR = "log_dir/"
 
+# ---------------------------------
+# PLOTTING (change as required)
+# ---------------------------------
 # Plotting the learning curve from the Monitor logs
-
 # Helper function from Stable Baselines 3 to read monitor files
 def plot_results(log_folder, title=f'Learning Curve {save_model_name} {n_model}'):
     x, y = ts2xy(load_results(log_folder), 'timesteps')
@@ -40,19 +50,6 @@ def plot_results(log_folder, title=f'Learning Curve {save_model_name} {n_model}'
 
 plot_results(f"{LOG_DIR}")
 
-# wrapper class
-class OneHotWrapper(gym.ObservationWrapper):
-    def __init__(self, env):
-        super().__init__(env)
-        n = env.observation_space.n
-        self.observation_space = gym.spaces.Box(0, 1, (n,), dtype=np.float32)
-
-    def observation(self, obs):
-        v = np.zeros(self.observation_space.shape[0], dtype=np.float32)
-        v[obs] = 1.0
-        return v
-
-env_name = "TravelField-10x10-v0"
 
 eval_env = gym.make(f"Gym-Gridworlds/{env_name}", 
                     no_stay=no_stay, 
@@ -61,8 +58,8 @@ eval_env = gym.make(f"Gym-Gridworlds/{env_name}",
                     random_goals = random_goals,
                     )
 # wrap envs
-eval_env = MatrixWithGoalWrapper(eval_env)
-eval_env = Monitor(eval_env, f"{LOG_DIR}/{eval_model_name}")
+eval_env = AddGoalWrapper(eval_env)
+eval_env = Monitor(eval_env) #, f"{LOG_DIR}/{eval_model_name}")
 
 trained_model = PPO.load(f"trained_models/{save_model_name}_{n_model}")
 mean_reward, std_reward = evaluate_policy(trained_model, eval_env, n_eval_episodes=10)

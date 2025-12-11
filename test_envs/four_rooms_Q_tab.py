@@ -51,7 +51,7 @@ env = gym.make("Gym-Gridworlds/FourRooms-Original-13x13-v0",
                distance_reward=True, 
                render_mode = "human")
 
-
+eval_rewards = []
 for episode in range(10):
     obs, info = env.reset()
     done = False
@@ -62,7 +62,12 @@ for episode in range(10):
         done = terminated or truncated
         episode_reward += reward
         # time.sleep(0.1)
+    eval_rewards.append(episode_reward)
     print(f"Episode {episode + 1}: Total Reward = {episode_reward}")
+
+mean_reward = np.mean(eval_rewards)
+std_reward = np.std(eval_rewards)
+print(f"Mean Reward: {mean_reward:.2f} +/- {std_reward:.2f}")
 
 env.close() 
 

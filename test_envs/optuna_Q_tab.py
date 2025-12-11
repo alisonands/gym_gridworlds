@@ -4,10 +4,6 @@ import numpy as np
 import gym_gridworlds
 
 # ---------------------------------
-# CREATE ENV (gymnasium)
-# ---------------------------------
-
-# ---------------------------------
 # VARIABLES (change as required)
 # ---------------------------------
 

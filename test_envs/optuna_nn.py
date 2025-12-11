@@ -15,7 +15,7 @@ import optuna
 # ---------------------------------
 def optimize_model(trial):
     # find best params for learning rate, discount factor and exploration/entropy
-    learning_rate = trial.suggest_loguniform("learning_rate", 1e-5, 1e-2)
+    learning_rate = trial.suggest_uniform("learning_rate", 1e-5, 1e-2)
     gamma = trial.suggest_uniform("gamma", 0.8, 0.99)
 
     # ---------- change here for ppo/dqn -------------
@@ -25,7 +25,7 @@ def optimize_model(trial):
     # ---------------------------------
     # CHANGE ENV HERE
     # ---------------------------------
-    env_path = f"Gym-Gridworlds/FourRooms-Original-13x13-v0"
+    env_path = f"Gym-Gridworlds/TravelField-10x10-v0"
 
     env = gym.make(env_path,
                    no_stay = True,
@@ -33,7 +33,7 @@ def optimize_model(trial):
                    random_goals = False,
                    distance_reward = True)
     
-    env = AddGoalWrapper(env)
+    env = MatrixWithGoalWrapper(env)
 
     model = PPO(
     "MlpPolicy",

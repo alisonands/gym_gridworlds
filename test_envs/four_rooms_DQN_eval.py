@@ -20,7 +20,6 @@ env_name = "FourRooms-Original-13x13-v0"
 save_model_name = "four_rooms"
 n_model = "DQN"
 eval_model_name = f"{save_model_name}_eval_{n_model}"
-n_model = "DQN"
 no_stay = True
 start_pos = None
 random_goals = False
