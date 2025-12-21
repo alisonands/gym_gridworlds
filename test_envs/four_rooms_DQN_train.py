@@ -49,13 +49,13 @@ env = Monitor(env, f"{LOG_DIR}") #logs stuff to log dir
 model = DQN(
     "MlpPolicy",
     env,
-    learning_rate=0.0007,
-    gamma=0.91,
-    exploration_fraction=0.17,
+    learning_rate=0.023,
+    gamma=0.955,
+    exploration_fraction=0.07,
     verbose=1,
 )
 
-model.learn(total_timesteps=50000, progress_bar = True)
+model.learn(total_timesteps=150000, progress_bar = True)
 
 # save model
 model.save(f"trained_models/{save_model_name}_{n_model}")
