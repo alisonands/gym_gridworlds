@@ -1,3 +1,5 @@
+# using optuna to find the optimal Q-tabular values
+
 import gymnasium as gym
 import optuna 
 import numpy as np

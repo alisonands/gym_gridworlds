@@ -1,3 +1,5 @@
+# testing on 3x3 environment
+
 import gymnasium as gym
 import gym_gridworlds
 from stable_baselines3 import DQN, PPO

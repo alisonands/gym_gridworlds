@@ -1,3 +1,5 @@
+# testing packages/Q-learning on 3x3 environments
+
 import numpy as np
 import gym_gridworlds
 import gymnasium as gym

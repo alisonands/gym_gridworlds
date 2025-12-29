@@ -1,6 +1,5 @@
-# ---------------------------------
-# IMPORTS
-# ---------------------------------
+# plotting learned state/policy values for grids
+
 import gymnasium as gym
 from stable_baselines3.common.evaluation import evaluate_policy
 from stable_baselines3 import PPO

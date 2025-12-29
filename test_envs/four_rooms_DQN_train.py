@@ -1,6 +1,5 @@
-# ---------------------------------
-# IMPORTS
-# ---------------------------------
+# training model on environment
+
 import gymnasium as gym
 from stable_baselines3 import DQN
 from stable_baselines3.common.monitor import Monitor

@@ -9,4 +9,5 @@ shaping and hyperparameter choices influence stability, sample efficiency, and l
 
 A summary of the project can be found here: [final_report.pdf](https://alisonands.github.io/docs/505_final_report.pdf)
 
-### Relevant results
+## Structure
+All code for training and testing are in the [test_envs](test_envs) folder. Each file trains, tests, and evaluates models for the respective environment.

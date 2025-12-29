@@ -1,6 +1,6 @@
-# ---------------------------------
-# IMPORTS
-# ---------------------------------
+# running different hyperparameters in Optuna to find optimal values
+# change environments and models as required
+
 from stable_baselines3 import PPO, DQN
 from stable_baselines3.common.evaluation import evaluate_policy
 import gymnasium as gym

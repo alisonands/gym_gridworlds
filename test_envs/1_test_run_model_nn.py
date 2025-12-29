@@ -1,7 +1,3 @@
-# ---------------------------------
-# IMPORTS
-# ---------------------------------
-
 import gymnasium as gym
 from stable_baselines3 import DQN, PPO
 from stable_baselines3.common.monitor import Monitor
