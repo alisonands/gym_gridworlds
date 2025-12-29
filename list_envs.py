@@ -1,7 +1,7 @@
 #running this code lists all currently available environments in gym_gridworlds
 
 import gymnasium
-import gym_gridworldsa
+import gym_gridworlds
 
 all_envs = gymnasium.envs.registry.keys()
 
