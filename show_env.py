@@ -1,10 +1,12 @@
+# open/display environment
+
 import gymnasium
 import gym_gridworlds
 import time
 import pygame
 
-
-env = gymnasium.make("Gym-Gridworlds/Penalty-Randomized-4x4-v0", render_mode="human")
+env_name = "Gym-Gridworlds/Penalty-Randomized-4x4-v0"
+env = gymnasium.make(env_name, render_mode="human")
 obs, info = env.reset()
 
 running = True

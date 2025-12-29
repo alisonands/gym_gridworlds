@@ -28,7 +28,6 @@ distance_reward = True
 
 LOG_DIR = "log_dir/"
 
-# this was chatgpt'd oops:
 # Visualize the learned policy and value function
 grid_size = 13
 trained_model = DQN.load(f"trained_models/{save_model_name}_{n_model}")
