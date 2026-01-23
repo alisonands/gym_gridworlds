@@ -11,3 +11,15 @@ A summary of the project can be found here: [final_report.pdf](https://alisonand
 
 ## Structure
 All code for training and testing are in the [test_envs](test_envs) folder. Each file trains, tests, and evaluates models for the respective environment.
+
+## Results
+- 3x3 trained on DQN (more details in report)
+![3x3 DQN](results/DQN3x3.gif)
+- 3x3 trained on PPO
+![3x3PPO](results/3x3PPO.gif)
+- Four Rooms env \
+![four_rooms](results/four_rooms.gif)
+- Travel Field env \
+![travel_field](results/travel_field.gif)
+- Bigger Travel Field (Unfortunately, this hasen't worked out. yet...)
+![travel_field_big](results/travel_field_big.gif)
