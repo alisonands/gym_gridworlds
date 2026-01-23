@@ -14,7 +14,7 @@ All code for training and testing are in the [test_envs](test_envs) folder. Each
 
 ## Results
 - 3x3 trained on DQN (more details in report) \
-![3x3 DQN](results/DQN3x3.gif){width=200px}
+![3x3 DQN](results/DQN3x3.gif =200x)
 - 3x3 trained on PPO \
 ![3x3PPO](results/3x3PPO.gif){width=200px}
 - Four Rooms env \
