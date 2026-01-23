@@ -14,12 +14,12 @@ All code for training and testing are in the [test_envs](test_envs) folder. Each
 
 ## Results
 - 3x3 trained on DQN (more details in report) \
-![3x3 DQN](results/DQN3x3.gif) {width=200px}
+![3x3 DQN](results/DQN3x3.gif){width=200px}
 - 3x3 trained on PPO \
-![3x3PPO](results/3x3PPO.gif) {width=200px}
+![3x3PPO](results/3x3PPO.gif){width=200px}
 - Four Rooms env \
-![four_rooms](results/four_rooms.gif) {width=200px}
+![four_rooms](results/four_rooms.gif){width=200px}
 - Travel Field env \
-![travel_field](results/travel_field.gif) {width=200px}
+![travel_field](results/travel_field.gif){width=200px}
 - Bigger Travel Field (Unfortunately, this hasen't worked out. yet...) \
-![travel_field_big](results/travel_field_big.gif) {width=200px}
+![travel_field_big](results/travel_field_big.gif){width=200px}
